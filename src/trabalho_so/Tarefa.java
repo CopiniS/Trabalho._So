@@ -4,15 +4,18 @@ package trabalho_so;
 public class Tarefa {
     int tempoComputacional;
     int tempoDeIngresso;
-    double somaAtraso;
-    int contadorAtraso;
+    int espera;
+    int atraso;
+    int execucao;
     
 
     public Tarefa(int tempoComputacional, int tempoDeIngresso) {
         this.tempoComputacional = tempoComputacional;
         this.tempoDeIngresso = tempoDeIngresso;
-        this.somaAtraso = 0;
-        this.contadorAtraso = 0;
+        this.espera = 0;
+        this.atraso = 0;
+        this.execucao = 0;
+        
     }
 
     public int getTempoComputacional() {
@@ -31,21 +34,31 @@ public class Tarefa {
         this.tempoDeIngresso = tempoDeIngresso;
     }
 
-    public double getSomaAtraso() {
-        return somaAtraso;
+    public double getAtraso() {
+        return atraso;
     }
 
-    public void setSomaAtraso(double atraso) {
-        this.somaAtraso = atraso;
+    public void setAtraso(int atraso) {
+        this.atraso = atraso;
     }
 
-    public int getContadorAtraso() {
-        return contadorAtraso;
+    public int getEspera() {
+        return espera;
     }
 
-    public void setContadorAtraso(int contador) {
-        this.contadorAtraso = contador;
+    public void setEspera(int espera) {
+        this.espera = espera;
     }
+
+    public int getExecucao() {
+        return execucao;
+    }
+
+    public void setExecucao(int execucao) {
+        this.execucao = execucao;
+    }
+    
+    
     
     
     
