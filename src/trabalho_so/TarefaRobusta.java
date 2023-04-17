@@ -2,6 +2,7 @@
 package trabalho_so;
 
 public class TarefaRobusta {
+    String nome;
     int periodo;
     int deadline;
     int tempoComputacional;
@@ -12,7 +13,7 @@ public class TarefaRobusta {
     int execucaoFaltante;
     
 
-    public TarefaRobusta(int periodo, int tempoComputacional, int tempoChegada) {
+    public TarefaRobusta(String nome, int periodo, int tempoComputacional, int tempoChegada) {
         this.periodo = periodo;
         this.deadline = periodo;
         this.tempoComputacional = tempoComputacional;
@@ -21,6 +22,7 @@ public class TarefaRobusta {
         this.atraso = 0;
         this.execucao = 0;
         this.execucaoFaltante = tempoComputacional;
+        this.nome = nome;
         
     }
 
