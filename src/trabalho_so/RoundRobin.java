@@ -98,7 +98,6 @@ public class RoundRobin {
         ArrayList<Integer> tempoCompletos = new ArrayList();
         ArrayList<Integer> tempoFaltante = new ArrayList(); 
          
-        addLista();
         inicializaTempoFaltante(listaOrdenada, tempoFaltante);
         
         //REPETE O PROCESSO ATÉ QUE A LISTA DAS TAREFAS COMPLETAMENTE EXECUTADAS SEJA IGUAL A QUANTIDADE DE TAREFAS

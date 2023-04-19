@@ -82,7 +82,6 @@ public class Sjf {
                     somaEsperas = somaEsperas + listatarefas.get(i).getEspera();
                     listatarefas.get(i).setExecucao(listatarefas.get(i).getEspera() + listatarefas.get(i).getTempoComputacional());
                     somaexecucao = somaexecucao + (listatarefas.get(i).getExecucao());
-                    System.out.println("contador111");
                 }
                 
                 //GUARDA NA LISTA ORDENADA O OBJETO AUX

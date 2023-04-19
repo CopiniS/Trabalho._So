@@ -15,7 +15,7 @@ public class FcFs {
         t1 = new Tarefa("T1",3, 0); 
         t2 = new Tarefa("T2",5, 3);  
         t3 = new Tarefa("T3",5, 2); 
-        t4 = new Tarefa("T1",3, 1); 
+        t4 = new Tarefa("T4",3, 1); 
         listatarefas = new ArrayList();
        
     }
