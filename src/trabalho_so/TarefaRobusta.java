@@ -89,6 +89,14 @@ public class TarefaRobusta {
     public void setExecucaoFaltante(int execucaoFaltante) {
         this.execucaoFaltante = execucaoFaltante;
     }
+
+    public String getNome() {
+        return nome;
+    }
+
+    public void setNome(String nome) {
+        this.nome = nome;
+    }
     
     
     

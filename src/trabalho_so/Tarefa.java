@@ -7,14 +7,16 @@ public class Tarefa {
     int espera;
     int atraso;
     int execucao;
+    String nome;
     
 
-    public Tarefa(int tempoComputacional, int tempoDeIngresso) {
+    public Tarefa(String nome, int tempoComputacional, int tempoDeIngresso) {
         this.tempoComputacional = tempoComputacional;
         this.tempoDeIngresso = tempoDeIngresso;
         this.espera = 0;
         this.atraso = 0;
         this.execucao = 0;
+        this.nome = nome;
         
     }
 
@@ -56,6 +58,14 @@ public class Tarefa {
 
     public void setExecucao(int execucao) {
         this.execucao = execucao;
+    }
+
+    public String getNome() {
+        return nome;
+    }
+
+    public void setNome(String nome) {
+        this.nome = nome;
     }
     
     

@@ -5,20 +5,32 @@ import java.util.ArrayList;
 
 public class FcFs {
     Tarefa t1, t2, t3, t4;
+    int somaEsperas = 0;
+    int somaexecucao= 0;
+    ArrayList<Tarefa> listatarefas;
     
     
 
     public FcFs() {
-        t1 = new Tarefa(3, 0); 
-        t2 = new Tarefa(5, 3);  
-        t3 = new Tarefa(5, 2); 
-        t4 = new Tarefa(3, 1); 
+        t1 = new Tarefa("T1",3, 0); 
+        t2 = new Tarefa("T2",5, 3);  
+        t3 = new Tarefa("T3",5, 2); 
+        t4 = new Tarefa("T1",3, 1); 
+        listatarefas = new ArrayList();
        
     }
-   
+    //ADICIONA AS TAREFAS NA LISTA
+    public void addLista(){
+        listatarefas.add(t1);
+        listatarefas.add(t2);
+        listatarefas.add(t3);
+        listatarefas.add(t4);
+        
+    }
     
-    public ArrayList ordenarTempoChegada(){
-        ArrayList<Tarefa> listatarefas = new ArrayList();
+    //ORDENA A LISTA
+    public void ordenarTempoChegada(){
+        
         Tarefa aux;
         for (int i=0; i<listatarefas.size(); i++) {
             for(int j=i+1; j<listatarefas.size(); j++){
@@ -29,31 +41,45 @@ public class FcFs {
                 }
             }
         }
-        return listatarefas;
     }
     
-    public double calculaEsperaMedia(ArrayList<Tarefa> listatarefas){
+    //EXECUTA AS TAREFAS
+    public void escalona(){
+        
+        addLista();
+        ordenarTempoChegada();
+        
         int tempoAtual = 0;
-        int somaEsperas = 0;
-        for(Tarefa tarefa : listatarefas){
-            tarefa.espera = tempoAtual - tarefa.tempoDeIngresso;
-            tempoAtual = tempoAtual + tarefa.getTempoComputacional();
-            somaEsperas = somaEsperas + tarefa.espera;
-        }
-        return (double) somaEsperas / (double) listatarefas.size();
-    }
-    
-    public void calculaTempoMedioAtraso(ArrayList<Tarefa> listatarefas){
-        
-    }
-    
-    public double calculaTempoExecucaoMedio(ArrayList<Tarefa> listatarefas){
-         int somaexecucao = 0;
-        
-        for(Tarefa tarefa : listatarefas){
-            somaexecucao = somaexecucao + (tarefa.espera + tarefa.tempoComputacional);
-        }
-        return (double) somaexecucao / (double) listatarefas.size();
-    }
        
+        for(Tarefa tarefa : listatarefas){
+            tarefa.setEspera(tempoAtual - tarefa.getTempoDeIngresso());
+            
+            System.out.println(tarefa.getNome() + " iniciou a execucao no tempo: " + tempoAtual);
+            tempoAtual = tempoAtual + tarefa.getTempoComputacional();
+            System.out.println(tarefa.getNome() + " finalizou a execucao no tempo: " + tempoAtual + "\n\n\n");
+            
+            //CALCULA AS SOMAS DAS ESPERAS / EXECUCOES / ATRASOS
+            somaEsperas = somaEsperas + tarefa.getEspera();
+            tarefa.setExecucao(tarefa.getEspera() + tarefa.getTempoComputacional());
+            somaexecucao = somaexecucao + (tarefa.getExecucao());
+        }
+    }
+    
+    public void calculaAtrasos(){
+        
+    }
+    
+    public void calculaEsperaMedia(){
+        double esperaMedia = somaEsperas / listatarefas.size();
+        
+        System.out.println("Espera Média: " + esperaMedia + "\n \n \n");
+        
+    }
+    
+    public void calculaExecucaoMedia(){
+        double execucaoMedia = somaexecucao / listatarefas.size();
+        
+        System.out.println("Execucao Média: " + execucaoMedia + "\n \n \n");
+    }
+      
 }

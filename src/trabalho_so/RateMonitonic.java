@@ -8,6 +8,7 @@ public class RateMonitonic {
     int execucaoFaltante = 5;
     ArrayList<TarefaRobusta> listaExecutados;
 
+    //CRIA AS TAREFAS
     public RateMonitonic() {
         this.t1 = new TarefaRobusta("t1", 6, 3, 0);
         this.t2 = new TarefaRobusta("t2", 10, 5, 0);
@@ -16,7 +17,7 @@ public class RateMonitonic {
         listaExecutados = new ArrayList();
     }
     
-    //DEIXA LISTA ORDENADA POR PERIODO(CRESCENTE)
+    //DEIXA LISTA DE TAREFAS ORDENADA POR PERIODO(CRESCENTE)
     public ArrayList ordenaLista(ArrayList<TarefaRobusta> listatarefas){
         
         TarefaRobusta aux;
@@ -32,9 +33,11 @@ public class RateMonitonic {
         return listatarefas;
     }
     
+    //FAZ O ESCALONAMENTO
     public void escalonar(ArrayList<TarefaRobusta> listaOrdenada){
         int tempoAtual = 0;
         
+        //LIMITA A EXECUCAO NO TEMPO DE 100 UNIDADES
         while(tempoAtual < 100){
             TarefaRobusta aux = null;
             
@@ -54,7 +57,7 @@ public class RateMonitonic {
                     }
                 }
             }    
-            //ORDENA A LISTA 
+            //CHAMA O ORDENA LISTA
             ordenaLista(listaOrdenada);
             
             //VERIFICA A PRIORIDADE LISTA
@@ -63,13 +66,22 @@ public class RateMonitonic {
                     aux = tarefa;
                     listaOrdenada.remove(tarefa);
                 }
-                
+            
+            //EXECUTA UMA UNIDADE DE TEMPO    
             if(aux != null){
+                System.out.println(aux.getNome() + " está sendo executada no instante " + tempoAtual);
+                
                 execucaoFaltante = execucaoFaltante - 1;
                 aux.setTempoChegada(aux.getTempoChegada() + 1);
                 tempoAtual = tempoAtual + 1;
                 
+                //ADICIONA A LISTA DE EXECUTADOS
+                //ATUALIZA O TEMPO DE CHEGADA E O DEADLINE DO PRÓXIMO PERÍODO
                 if(execucaoFaltante == 0){
+                    System.out.println("\n \n \n \n"
+                     + aux.getNome() + "Finalizou a execucao no instante " + String.valueOf(tempoAtual - 1)
+                      + "\n \n \n \n");
+                    
                     aux.setTempoChegada(aux.getTempoChegada() + aux.getPeriodo() - aux.getTempoComputacional());
                     listaExecutados.add(aux);
                     aux.setDeadline(aux.getDeadline() + aux.getPeriodo());
