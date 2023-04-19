@@ -94,6 +94,13 @@ public class Janela extends javax.swing.JFrame {
                 sistema2.escalona(sistema2.OrdenarTempoComputacional());
                 System.out.println("///////////////////////////////////////////////////////////////////\n///////////////////////////////////////////////////////////////////\n\n");
                 break;
+                
+            case "RATE MONITONIC":
+                System.out.println("ALGORITMO DE ESCALONAMENTO RATE MONITONIC \n");
+                RateMonitonic sistema4 = new RateMonitonic();
+                sistema4.escalonar();
+                System.out.println("///////////////////////////////////////////////////////////////////\n///////////////////////////////////////////////////////////////////\n\n");
+                break;
         }
     }//GEN-LAST:event_bt_iniciarMouseClicked
 
