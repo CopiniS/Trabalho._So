@@ -76,22 +76,22 @@ public class Janela extends javax.swing.JFrame {
          switch(cb_escalonadores.getSelectedItem().toString()){
             case "FCFS":
                 System.out.println("ALGORITMO DE ESCALONAMENTO FCFS \n");
-                FcFs sistema = new FcFs();
-                sistema.escalona();
+                FcFs sistema1 = new FcFs();
+                sistema1.escalona();
                 System.out.println("///////////////////////////////////////////////////////////////////\n///////////////////////////////////////////////////////////////////\n\n");
                 break;
                 
             case "SJF":
                 System.out.println("ALGORITMO DE ESCALONAMENTO SJF \n");
-                Sjf sistema1 = new Sjf();
-                sistema1.escalona();
+                Sjf sistema2 = new Sjf();
+                sistema2.escalona();
                 System.out.println("///////////////////////////////////////////////////////////////////\n///////////////////////////////////////////////////////////////////\n\n");
                 break;
                 
             case "ROUND ROBIN":
                 System.out.println("ALGORITMO DE ESCALONAMENTO ROUND ROBIN \n");
-                RoundRobin sistema2 = new RoundRobin();
-                sistema2.escalona(sistema2.OrdenarTempoComputacional());
+                RoundRobin sistema3 = new RoundRobin();
+                sistema3.escalona(sistema3.OrdenarTempoComputacional());
                 System.out.println("///////////////////////////////////////////////////////////////////\n///////////////////////////////////////////////////////////////////\n\n");
                 break;
                 
@@ -99,6 +99,13 @@ public class Janela extends javax.swing.JFrame {
                 System.out.println("ALGORITMO DE ESCALONAMENTO RATE MONITONIC \n");
                 RateMonitonic sistema4 = new RateMonitonic();
                 sistema4.escalonar();
+                System.out.println("///////////////////////////////////////////////////////////////////\n///////////////////////////////////////////////////////////////////\n\n");
+                break;
+                
+            case "EDF": 
+                System.out.println("ALGORITMO DE ESCALONAMENTO RATE MONITONIC \n");
+                EDF sistema5 = new EDF();
+                sistema5.escalonar();
                 System.out.println("///////////////////////////////////////////////////////////////////\n///////////////////////////////////////////////////////////////////\n\n");
                 break;
         }

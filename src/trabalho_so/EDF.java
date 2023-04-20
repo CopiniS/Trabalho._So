@@ -3,13 +3,13 @@ package trabalho_so;
 
 import java.util.ArrayList;
 
-public class RateMonitonic {
-    TarefaRobusta t1, t2, t3, t4;
+public class EDF {
+     TarefaRobusta t1, t2, t3, t4;
     ArrayList<TarefaRobusta> listaExecutados = new ArrayList();
     ArrayList<TarefaRobusta> listatarefas = new ArrayList();
 
     //CRIA AS TAREFAS
-    public RateMonitonic() {
+    public EDF() {
         this.t1 = new TarefaRobusta("t1", 6, 3, 0);
         this.t2 = new TarefaRobusta("t2", 10, 5, 0);
         this.t3 = new TarefaRobusta("t3", 10, 5, 0);
@@ -25,13 +25,13 @@ public class RateMonitonic {
         
     }
     
-    //DEIXA LISTA DE TAREFAS ORDENADA POR PERIODO(CRESCENTE)
+    //DEIXA LISTA DE TAREFAS ORDENADA POR DEADLINES(CRESCENTE)
     public void ordenaLista(){
         
         TarefaRobusta aux;
         for (int i=0; i<listatarefas.size(); i++) {
             for(int j=i+1; j<listatarefas.size(); j++){
-                if(listatarefas.get(i).getPeriodo()> listatarefas.get(j).getPeriodo()){
+                if(listatarefas.get(i).getDeadlineFaltante()> listatarefas.get(j).getDeadlineFaltante()){
                     aux = listatarefas.get(i);
                     listatarefas.set(i, listatarefas.get(j));
                     listatarefas.set(j, aux);
@@ -50,14 +50,10 @@ public class RateMonitonic {
         //LIMITA A EXECUCAO NO TEMPO DE 100 UNIDADES
         while(tempoAtual < 100){
             
-            
-            //VERIFICA SE ALGUMA TAREFA PERDEU DEADLINE
-            for(TarefaRobusta tarefa : listatarefas){
-                if(tarefa.deadline < tempoAtual){
-                    System.out.println("A TAREFA " + tarefa.nome + " PERDEU DEADLINE");
-                    System.exit(0);
-                    
-                }
+                //VERIFICA SE ALGUMA TAREFA PERDEU DEADLINE
+            if(aux != null && aux.getDeadlineFaltante() < 0){
+                System.out.println("A TAREFA " + aux.nome + " PERDEU DEADLINE");
+                System.exit(0);
             }
             
             //VERIFICA SE CHEGOU ALGUMA TAREFA NOVA
@@ -73,7 +69,7 @@ public class RateMonitonic {
             
             //VERIFICA A PRIORIDADE LISTA
             for(int i=0; i<listatarefas.size(); i++){
-                if(listatarefas.get(i).getTempoChegada() <= tempoAtual && (aux == null || listatarefas.get(i).getPeriodo() < aux.getPeriodo())){
+                if(listatarefas.get(i).getTempoChegada() <= tempoAtual && (aux == null || listatarefas.get(i).getDeadlineFaltante()< aux.getDeadlineFaltante())){
                     aux = listatarefas.get(i);
                     listatarefas.remove(listatarefas.get(i));
                 }
@@ -85,7 +81,14 @@ public class RateMonitonic {
                 
                 aux.setExecucaoFaltante(aux.getExecucaoFaltante() - 1);
                 aux.setTempoChegada(aux.getTempoChegada() + 1);
+                aux.setDeadlineFaltante(aux.getDeadlineFaltante() - 1);
                 tempoAtual = tempoAtual + 1;
+                
+                //ATUALIZA OS DEADLINES A CADA EXECUCAO
+                for(TarefaRobusta tarefa : listatarefas){
+                    tarefa.setDeadlineFaltante(tarefa.getDeadlineFaltante() - 1);
+                }
+                
                
                 
                 //ADICIONA A LISTA DE EXECUTADOS
@@ -99,6 +102,7 @@ public class RateMonitonic {
                     listaExecutados.add(aux);
                     aux.setDeadline(aux.getDeadline() + aux.getPeriodo());
                     aux.setExecucaoFaltante(aux.getTempoComputacional());
+                    aux.setDeadlineFaltante(aux.getDeadline());
                     aux = null;
                     
                 }
@@ -110,7 +114,3 @@ public class RateMonitonic {
     }
     }
 }
-
-    
-    
-

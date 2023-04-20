@@ -11,9 +11,11 @@ public class TarefaRobusta {
     int execucao;
     int tempoChegada;
     int execucaoFaltante;
+    int deadlineFaltante;
     
 
     public TarefaRobusta(String nome, int periodo, int tempoComputacional, int tempoChegada) {
+        this.nome = nome;
         this.periodo = periodo;
         this.deadline = periodo;
         this.tempoComputacional = tempoComputacional;
@@ -22,7 +24,7 @@ public class TarefaRobusta {
         this.atraso = 0;
         this.execucao = 0;
         this.execucaoFaltante = tempoComputacional;
-        this.nome = nome;
+        this.deadlineFaltante = this.deadline;
         
     }
 
@@ -96,6 +98,14 @@ public class TarefaRobusta {
 
     public void setNome(String nome) {
         this.nome = nome;
+    }
+
+    public int getDeadlineFaltante() {
+        return deadlineFaltante;
+    }
+
+    public void setDeadlineFaltante(int deadlineFaltante) {
+        this.deadlineFaltante = deadlineFaltante;
     }
     
     
