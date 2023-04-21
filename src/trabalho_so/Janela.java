@@ -97,7 +97,10 @@ public class Janela extends javax.swing.JFrame {
             case "ROUND ROBIN":
                 System.out.println("ALGORITMO DE ESCALONAMENTO ROUND ROBIN \n");
                 RoundRobin sistema3 = new RoundRobin();
-                sistema3.escalona(sistema3.OrdenarTempoComputacional());
+                sistema3.escalona();
+                sistema3.calculaExecucaoMedia();
+                sistema3.calculaEsperaMedia();
+                sistema3.calculaAtrasos();
                 System.out.println("///////////////////////////////////////////////////////////////////\n///////////////////////////////////////////////////////////////////\n\n");
                 break;
                 

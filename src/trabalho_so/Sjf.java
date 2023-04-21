@@ -80,7 +80,7 @@ public class Sjf {
                     listaOrdenada.add(listatarefas.get(i));
                     
                     //FAZ A ATUALIZAÇÃO DO TEMPO DE ATRASO DA TAREFA
-                    listatarefas.get(i).setAtraso(tempoAtual - listatarefas.get(i).getTempoComputacional() + listatarefas.get(i).getTempoDeIngresso());
+                    listatarefas.get(i).setAtraso(tempoAtual - (listatarefas.get(i).getTempoComputacional() + listatarefas.get(i).getTempoDeIngresso()));
                     
                     //FAZ A ATUALIZAÇÃO DO TEMPO DE EXECUÇAO DA TAREFA
                     listatarefas.get(i).setExecucao(listatarefas.get(i).getTempoComputacional());
@@ -109,6 +109,7 @@ public class Sjf {
                     aux.setExecucao(aux.getTempoComputacional());
                     
                     //CALCULA AS SOMAS DAS ESPERAS E EXECUCOES 
+                    
                     somaEsperas = somaEsperas + aux.getEspera();
                     somaexecucao = somaexecucao + (aux.getExecucao());
                 }
@@ -128,7 +129,7 @@ public class Sjf {
         }
         
         public void calculaAtrasos(){
-            int maior = -1;
+        int maior = -1;
         int menor = Integer.MAX_VALUE;
         Tarefa tarefaMaior = null;
         Tarefa tarefaMenor = null;

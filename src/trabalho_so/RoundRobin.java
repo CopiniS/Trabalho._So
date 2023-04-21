@@ -7,6 +7,9 @@ public class RoundRobin {
     Tarefa t1, t2, t3, t4;
     int quantum;
     ArrayList<Tarefa> listatarefas = new ArrayList();
+    ArrayList<Tarefa> listaOrdenada = new ArrayList();
+    int somaEsperas = 0;
+    int somaExecucoes = 0;
     
     
 
@@ -43,10 +46,7 @@ public class RoundRobin {
     }
     
     //ORDENA AS TAREFAS POR TEMPO COMPUTACIONAL
-    public ArrayList OrdenarTempoComputacional(){
-            
-        
-            ArrayList<Tarefa> listaOrdenada = new ArrayList();
+    public void OrdenarTempoComputacional(){
             addLista();
             ordenarTempoChegada();
             
@@ -75,11 +75,7 @@ public class RoundRobin {
                     tempoAtual = tempoAtual + aux.getTempoComputacional();
                 }
             }
-            System.out.println(listaOrdenada.get(0));
-            System.out.println(listaOrdenada.get(1));
-            System.out.println(listaOrdenada.get(2));
-            System.out.println(listaOrdenada.get(3));
-            return listaOrdenada;
+            
         }
     
     //INICIALIZA A LISTA DOS TEMPOS QUE FALTAM PARA FINALIZACAO COM OS TEMPOS COMPUTACIONAIS INICIAIS DE CADA TAREFA
@@ -90,65 +86,89 @@ public class RoundRobin {
     }
     
     //EXECUTA
-    public ArrayList escalona(ArrayList<Tarefa> listaOrdenada){
+    public void escalona(){
         
-        
+        OrdenarTempoComputacional();
         int tempoAtual = 0;
         int completos = 0;
-        ArrayList<Integer> tempoCompletos = new ArrayList();
-        ArrayList<Integer> tempoFaltante = new ArrayList(); 
+        int tempoAux = 0;
+        ArrayList<Integer> tempoFaltante = new ArrayList();
          
         inicializaTempoFaltante(listaOrdenada, tempoFaltante);
         
-        //REPETE O PROCESSO ATÉ QUE A LISTA DAS TAREFAS COMPLETAMENTE EXECUTADAS SEJA IGUAL A QUANTIDADE DE TAREFAS
+        //REPETE O PROCESSO ATÉ QUE A QUANTIDADE DE TAREFASS NA LISTA DAS TAREFAS COMPLETAS SEJA IGUAL A QUANTIDADE DE TAREFAS EXISTENTES NO SISTEMA
         while(completos < listaOrdenada.size()){
+            tempoAux = 0;
             for(int i=0; i<listaOrdenada.size(); i++){
                 
                 //VERIFICA SE A TAREFA NÃO TERMINOU A SUA EXECUCAO AINDA
                 if(tempoFaltante.get(i) > 0){
-                    
                     System.out.println(listaOrdenada.get(i).getNome() + " está executando no tempo " + tempoAtual);
                     
-                    //GUARDA NA VARIAVEL EXECUTA O MENOR VALOR ENTRE O VALOR QUANTUM E A QUANTIDADE DE TEMPO DE EXECUCAO
-                    //QUE FALTA PARA A TAREFA FINALIZAR, DEPOIS UTILIZA A VARIAVEL PARA FAZER A EXECUCAO DA TAREFA EM RELACAO AO TEMPO
+                    //ATUALIZA O TEMPO DE ESPERA DA TAREFA
+                    listaOrdenada.get(i).setEspera(listaOrdenada.get(i).getEspera() + (tempoAux - listaOrdenada.get(i).getTempoDeIngresso()));
+                    
+                    //FAZ A EXECUÇÃO
                     int executa = Math.min(tempoFaltante.get(i), quantum);
                     tempoFaltante.set(i, (tempoFaltante.get(i) - executa));
                     tempoAtual = tempoAtual + executa;
+                    tempoAux = tempoAux + executa;
                 
                 
-                    //VERIFICA SE A TAREFA FINALIZOU, E SE POSITIVO ADICIONA NA LISTA DAS EXECUCOES COMPLETAMENTE FINALIZADAS
+                    //VERIFICA SE A TAREFA FINALIZOU, E SE POSITIVO ADICIONA 1 AO CONTADOR DOS COMPLETOS
                     if(tempoFaltante.get(i) == 0){
                     
-                        System.out.println(listaOrdenada.get(i).getNome() + " finalizou a execucao no tempo " + tempoAtual);
-                    
-                        tempoCompletos.add(i, tempoAtual);
+                        System.out.println(listaOrdenada.get(i).getNome() + "\n\n finalizou a execucao no tempo " + tempoAtual + "\n\n");
                         completos++;
+                        
+                        //FAZ A ATUALIZAÇÃO DO TEMPO DE EXECUCAO DA TAREFA
+                        listaOrdenada.get(i).setExecucao(tempoAtual - listaOrdenada.get(i).getEspera());
+                        
+                        //FAZ A ATUALIZAÇÃO DO TEMPO DE ATRASO DA TAREFA
+                        listaOrdenada.get(i).setAtraso(tempoAtual - (listaOrdenada.get(i).getTempoComputacional() + listaOrdenada.get(i).getTempoDeIngresso()));
                     } 
+                    
+                    
+                    //CALCULA AS SOMAS DAS ESPERAS E EXECUCOES
+                    somaEsperas = somaEsperas + listaOrdenada.get(i).getEspera();
+                    somaExecucoes = somaExecucoes + (listaOrdenada.get(i).getExecucao());
                 }
             }
         }
-        //RETORNA EM QUE MOMENTO FORAM REALIZADAS AS FINALIZACOES DAS EXECUCOES PARA SE FAZER OS CALCULOS DAS MEDIAS
-        return tempoCompletos;
     }
     
-    public double calculaExecucaoMedia(ArrayList<Integer> tempoCompletos, ArrayList<Tarefa> listaOrdenada){
-        int somaExecucao = 0;
+    public void calculaExecucaoMedia(){
+        double execucaoMedia = somaExecucoes / listaOrdenada.size();
         
-        for(int i=0; i<tempoCompletos.size(); i++){
-           listaOrdenada.get(i).setExecucao(tempoCompletos.get(i) - listaOrdenada.get(i).getTempoDeIngresso());
-           
-           somaExecucao = somaExecucao + listaOrdenada.get(i).getExecucao();
-        }
-        return (double) somaExecucao / (double) listaOrdenada.size();
+        System.out.println("Execucao Média: " + execucaoMedia + "\n \n \n");
     }
     
-    public double calculaEsperaMedia(ArrayList<Tarefa> listaOrdenada){
-        int somaEspera = 0;
-        for(Tarefa tarefa : listaOrdenada){
-            tarefa.setEspera(tarefa.execucao - tarefa.tempoComputacional);
-            somaEspera = somaEspera + tarefa.espera;
+    public void calculaEsperaMedia(){
+        double esperaMedia = somaEsperas / listaOrdenada.size();
+        
+        System.out.println("Espera Média: " + esperaMedia + "\n\n\n");
+    }
+       
+    public void calculaAtrasos(){
+        int maior = -1;
+        int menor = Integer.MAX_VALUE;
+        Tarefa tarefaMaior = null;
+        Tarefa tarefaMenor = null;
+        
+        for(Tarefa tarefa : listatarefas){
+            if(tarefa.getAtraso() > maior){
+                tarefaMaior = tarefa;
+                maior = (int) tarefa.getAtraso();
+            }
+            
+            if(tarefa.getAtraso() < menor){
+                tarefaMenor = tarefa;
+                menor = (int) tarefa.getAtraso();
+            }
         }
-        return (double) somaEspera / (double) listaOrdenada.size();
+        
+        System.out.println("Tarefa com maior atraso: " + tarefaMaior.getNome() + " com atraso total de " + tarefaMaior.getAtraso());
+        System.out.println("Tarefa com menor atraso: " + tarefaMenor.getNome() + " com atraso total de " + tarefaMenor.getAtraso() + "\n\n");
     }
     
     
