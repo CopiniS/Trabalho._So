@@ -7,8 +7,11 @@ public class RateMonitonic {
     TarefaRobusta t1, t2, t3, t4;
     ArrayList<TarefaRobusta> listaExecutados = new ArrayList();
     ArrayList<TarefaRobusta> listatarefas = new ArrayList();
+    int contTarefas = 4;
+    int somaEsperas = 0;
+    int somaExecucoes = 0;
 
-    //CRIA AS TAREFAS
+    //INICIALIZA AS TAREFAS
     public RateMonitonic() {
         this.t1 = new TarefaRobusta("t1", 6, 3, 0);
         this.t2 = new TarefaRobusta("t2", 10, 5, 0);
@@ -56,6 +59,7 @@ public class RateMonitonic {
                 for(int i=0; i<listaExecutados.size(); i++){
                     if(listaExecutados.get(i).getTempoChegada() == tempoAtual){
                         listatarefas.add(listaExecutados.get(i));
+                        contTarefas++;
                     }
                 }
             }    
@@ -72,27 +76,44 @@ public class RateMonitonic {
             
             //EXECUTA UMA UNIDADE DE TEMPO    
             if(aux != null){
-                System.out.println(aux.getNome() + " está sendo executada no instante " + tempoAtual);
                 
+                //ATUALIZA O TEMPO DE ESPERA
+                if(aux.getTempoComputacional() == aux.getExecucaoFaltante()){
+                aux.setEspera(tempoAtual - aux.getTempoChegada());
+                }
+                
+                System.out.println(aux.getNome() + " está sendo executada no instante " + tempoAtual);
                 aux.setExecucaoFaltante(aux.getExecucaoFaltante() - 1);
                 aux.setTempoChegada(aux.getTempoChegada() + 1);
                 tempoAtual = tempoAtual + 1;
                
                 
-                //ADICIONA A LISTA DE EXECUTADOS
-                //ATUALIZA O TEMPO DE CHEGADA E O DEADLINE DO PRÓXIMO PERÍODO
+                //SOMA DAS ESPERAS E DAS EXECUCOES
+                somaEsperas = somaEsperas + aux.getEspera();
+                
+                //VERIFICA SE ACABOU A EXECUÇÃO DA TAREFA QUE ESTAVA EXECUTANDO
                 if(aux.execucaoFaltante == 0){
                     System.out.println("\n \n \n \n"
                      + aux.getNome() + "Finalizou a execucao no instante " + String.valueOf(tempoAtual)
                       + "\n \n \n \n");
                     
+                    //ATUALIZA AS FUNÇÕES PARA A EXECUÇÃO
                     aux.setTempoChegada(aux.getTempoChegada() + aux.getPeriodo() - aux.getTempoComputacional());
-                    listaExecutados.add(aux);
                     aux.setDeadline(aux.getDeadline() + aux.getPeriodo());
                     aux.setExecucaoFaltante(aux.getTempoComputacional());
+                    
+                    //ATUALIZA O TEMPO DE EXECUÇÃO
+                    aux.setExecucao(tempoAtual - aux.getEspera());
+                    
+                    //ATUALIZA O TEMPO DE ATRASO
+                    
+                    
+                    //ADICIONA A LISTA DE EXECUTADOS;
+                    listaExecutados.add(aux);
                     aux = null;
                     
                 }
+                
             }
             else{
                 System.out.println("NÃO A TAREFAS A SEREM EXECUTADAS");

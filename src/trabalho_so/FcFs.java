@@ -52,17 +52,23 @@ public class FcFs {
         int tempoAtual = 0;
        
         for(Tarefa tarefa : listatarefas){
+            
+            //FAZ A ATUALIZAÇÃO DO TEMPO DE ESPERA
             tarefa.setEspera(tempoAtual - tarefa.getTempoDeIngresso());
             
             System.out.println(tarefa.getNome() + " iniciou a execucao no tempo: " + tempoAtual);
             tempoAtual = tempoAtual + tarefa.getTempoComputacional();
             System.out.println(tarefa.getNome() + " finalizou a execucao no tempo: " + tempoAtual + "\n\n\n");
             
-            //CALCULA AS SOMAS DAS ESPERAS / EXECUCOES / ATRASOS
-            somaEsperas = somaEsperas + tarefa.getEspera();
+            //FAZ A ATUALIZAÇÃO DO TEMPO DE EXECUÇÃO
             tarefa.setExecucao(tarefa.getTempoComputacional());
-            somaexecucao = somaexecucao + (tarefa.getExecucao());
+            
+            //FAZ A ATUALIZAÇÃO DO TEMPO DE ATRASO
             tarefa.setAtraso(tempoAtual - tarefa.getTempoComputacional() + tarefa.getTempoDeIngresso());
+
+            //CALCULA AS SOMAS DAS ESPERAS / EXECUCOES 
+            somaEsperas = somaEsperas + tarefa.getEspera();
+            somaexecucao = somaexecucao + (tarefa.getExecucao());
         }
     }
     

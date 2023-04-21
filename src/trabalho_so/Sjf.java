@@ -58,8 +58,9 @@ public class Sjf {
                     
                     //COMPARA AS TAREFAS PARA ACHAR A COM MENOR TEMPO COMPUTACIONAL QUE JA TENHA 
                     //INGRESSADO NO SISTEMA, OU SEJA QUE O TEMPO DE INGRESSO SEJA MENOR QUE O TEMPO ATUAL
-                    if(listatarefas.get(i).getTempoComputacional() > listatarefas.get(j).getTempoComputacional()
-                        && listatarefas.get(j).getTempoDeIngresso() < tempoAtual){
+                    if((listatarefas.get(i).getTempoComputacional() > listatarefas.get(j).getTempoComputacional() || listaOrdenada.contains(listatarefas.get(i)))
+                        && listatarefas.get(j).getTempoDeIngresso() < tempoAtual
+                        && (aux == null || listatarefas.get(j).getTempoComputacional() < aux.getTempoComputacional())){
                         aux = listatarefas.get(j);
                         
                     }

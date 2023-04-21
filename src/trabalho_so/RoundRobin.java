@@ -50,7 +50,6 @@ public class RoundRobin {
             addLista();
             ordenarTempoChegada();
             
-            
             int tempoAtual = 0;
             for(int i=0; i<listatarefas.size(); i++){
                 Tarefa aux = null;
@@ -59,8 +58,9 @@ public class RoundRobin {
                     if(i==j || listaOrdenada.contains(listatarefas.get(j))){
                         continue;
                     }
-                    if(listatarefas.get(i).getTempoComputacional() > listatarefas.get(j).getTempoComputacional()
-                        && listatarefas.get(j).getTempoDeIngresso() < tempoAtual){
+                    if((listatarefas.get(i).getTempoComputacional() > listatarefas.get(j).getTempoComputacional() || listaOrdenada.contains(listatarefas.get(i)))
+                        && listatarefas.get(j).getTempoDeIngresso() < tempoAtual 
+                        && (aux == null || listatarefas.get(j).getTempoComputacional() < aux.getTempoComputacional())){
                         aux = listatarefas.get(j);
                     }
                 }   
@@ -79,7 +79,7 @@ public class RoundRobin {
         }
     
     //INICIALIZA A LISTA DOS TEMPOS QUE FALTAM PARA FINALIZACAO COM OS TEMPOS COMPUTACIONAIS INICIAIS DE CADA TAREFA
-    public void inicializaTempoFaltante(ArrayList<Tarefa> listaOrdenada, ArrayList<Integer> tempoFaltante){
+    public void inicializaTempoFaltante(ArrayList<Integer> tempoFaltante){
         for(Tarefa tarefa : listaOrdenada){
             tempoFaltante.add(tarefa.getTempoComputacional());
         }
@@ -94,7 +94,7 @@ public class RoundRobin {
         int tempoAux = 0;
         ArrayList<Integer> tempoFaltante = new ArrayList();
          
-        inicializaTempoFaltante(listaOrdenada, tempoFaltante);
+        inicializaTempoFaltante(tempoFaltante);
         
         //REPETE O PROCESSO ATÉ QUE A QUANTIDADE DE TAREFASS NA LISTA DAS TAREFAS COMPLETAS SEJA IGUAL A QUANTIDADE DE TAREFAS EXISTENTES NO SISTEMA
         while(completos < listaOrdenada.size()){
@@ -118,7 +118,7 @@ public class RoundRobin {
                     //VERIFICA SE A TAREFA FINALIZOU, E SE POSITIVO ADICIONA 1 AO CONTADOR DOS COMPLETOS
                     if(tempoFaltante.get(i) == 0){
                     
-                        System.out.println(listaOrdenada.get(i).getNome() + "\n\n finalizou a execucao no tempo " + tempoAtual + "\n\n");
+                        System.out.println("\n\n " + listaOrdenada.get(i).getNome() + " finalizou a execucao no tempo " + tempoAtual + "\n\n");
                         completos++;
                         
                         //FAZ A ATUALIZAÇÃO DO TEMPO DE EXECUCAO DA TAREFA
@@ -140,13 +140,13 @@ public class RoundRobin {
     public void calculaExecucaoMedia(){
         double execucaoMedia = somaExecucoes / listaOrdenada.size();
         
-        System.out.println("Execucao Média: " + execucaoMedia + "\n \n \n");
+        System.out.println("Execucao Média: " + execucaoMedia);
     }
     
     public void calculaEsperaMedia(){
         double esperaMedia = somaEsperas / listaOrdenada.size();
         
-        System.out.println("Espera Média: " + esperaMedia + "\n\n\n");
+        System.out.println("Espera Média: " + esperaMedia);
     }
        
     public void calculaAtrasos(){
