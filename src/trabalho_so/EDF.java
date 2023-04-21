@@ -50,11 +50,6 @@ public class EDF {
         //LIMITA A EXECUCAO NO TEMPO DE 100 UNIDADES
         while(tempoAtual < 100){
             
-                //VERIFICA SE ALGUMA TAREFA PERDEU DEADLINE
-            if(aux != null && aux.getDeadlineFaltante() < 0){
-                System.out.println("A TAREFA " + aux.nome + " PERDEU DEADLINE");
-                System.exit(0);
-            }
             
             //VERIFICA SE CHEGOU ALGUMA TAREFA NOVA
             if(!listaExecutados.isEmpty()){
@@ -110,7 +105,26 @@ public class EDF {
             else{
                 System.out.println("NÃO A TAREFAS A SEREM EXECUTADAS");
                 System.exit(0);
-        }
+            }
+            
+            
+            //VERIFICA SE A TAREFA QUE ESTÁ EM EXECUÇÃO PERDEU DEADLINE
+            if(aux != null && aux.getDeadlineFaltante() < 0){
+                System.out.println("A TAREFA " + aux.getNome() + " PERDEU DEADLINE NO INSTANTE " + tempoAtual);
+                break;
+            }
+            
+            boolean quebrarWhile = false;
+            //VERIFICA SE ALGUMA TAREFA QUE ESTÁ NA FILA PERDEU DEADLINE
+            for(int i=0; i<listatarefas.size();i++){
+                if(!listatarefas.isEmpty() && listatarefas.get(i).getDeadlineFaltante() < 0){
+                    System.out.println("A TAREFA " + listatarefas.get(i).getNome() + " PERDEU DEADLINE NO INSTANTE " + tempoAtual);
+                    quebrarWhile = true;
+                }
+            }
+            if(quebrarWhile == true){
+                break;
+            }
     }
     }
 }

@@ -78,6 +78,9 @@ public class Janela extends javax.swing.JFrame {
                 System.out.println("ALGORITMO DE ESCALONAMENTO FCFS \n");
                 FcFs sistema1 = new FcFs();
                 sistema1.escalona();
+                sistema1.calculaExecucaoMedia();
+                sistema1.calculaEsperaMedia();
+                sistema1.calculaAtrasos();
                 System.out.println("///////////////////////////////////////////////////////////////////\n///////////////////////////////////////////////////////////////////\n\n");
                 break;
                 
@@ -86,6 +89,9 @@ public class Janela extends javax.swing.JFrame {
                 Sjf sistema2 = new Sjf();
                 sistema2.escalona();
                 System.out.println("///////////////////////////////////////////////////////////////////\n///////////////////////////////////////////////////////////////////\n\n");
+                sistema2.calculaExecucaomedia();
+                sistema2.calculaEsperaMedia();
+                sistema2.calculaAtrasos();
                 break;
                 
             case "ROUND ROBIN":
@@ -103,7 +109,7 @@ public class Janela extends javax.swing.JFrame {
                 break;
                 
             case "EDF": 
-                System.out.println("ALGORITMO DE ESCALONAMENTO RATE MONITONIC \n");
+                System.out.println("ALGORITMO DE ESCALONAMENTO EDF \n");
                 EDF sistema5 = new EDF();
                 sistema5.escalonar();
                 System.out.println("///////////////////////////////////////////////////////////////////\n///////////////////////////////////////////////////////////////////\n\n");

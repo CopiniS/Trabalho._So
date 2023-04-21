@@ -70,30 +70,47 @@ public class Sjf {
                 //EXECUTA A TAREFA GUARDADA EM LISTATAREFA.GET(i)
                 if(aux == null){
                     
+                    //FAZ A ATUALIZAÇÃO DO TEMPO DE ESPERA DA TAREFA
                     listatarefas.get(i).setEspera(tempoAtual - listatarefas.get(i).getTempoDeIngresso());
                     
+                    //FAZ A EXECUÇÃO
                     System.out.println(listatarefas.get(i).getNome() + " iniciou a execucao no tempo: " + tempoAtual);
                     tempoAtual = tempoAtual + listatarefas.get(i).tempoComputacional;
                     System.out.println(listatarefas.get(i).getNome() + " finalizou a execucao no tempo: " + tempoAtual + "\n\n\n");
-                    
                     listaOrdenada.add(listatarefas.get(i));
                     
-                    //CALCULA AS SOMAS DAS ESPERAS / EXECUCOES / ATRASOS
+                    //FAZ A ATUALIZAÇÃO DO TEMPO DE ATRASO DA TAREFA
+                    listatarefas.get(i).setAtraso(tempoAtual - listatarefas.get(i).getTempoComputacional() + listatarefas.get(i).getTempoDeIngresso());
+                    
+                    //FAZ A ATUALIZAÇÃO DO TEMPO DE EXECUÇAO DA TAREFA
+                    listatarefas.get(i).setExecucao(listatarefas.get(i).getTempoComputacional());
+                    
+                    //CALCULA AS SOMAS DAS ESPERAS E EXECUCOES
                     somaEsperas = somaEsperas + listatarefas.get(i).getEspera();
-                    listatarefas.get(i).setExecucao(listatarefas.get(i).getEspera() + listatarefas.get(i).getTempoComputacional());
                     somaexecucao = somaexecucao + (listatarefas.get(i).getExecucao());
                 }
                 
                 //GUARDA NA LISTA ORDENADA O OBJETO AUX
                 else{
+                    
+                    //FAZ A ATUALIZAÇÃO DO TEMPO DE ESPERA DA TAREFA
+                    aux.setEspera(tempoAtual - aux.getTempoDeIngresso());
+                    
+                    //FAZ A EXECUÇAO
                     System.out.println(aux.getNome() + " iniciou a execucao no tempo: " + tempoAtual);
                     tempoAtual = tempoAtual + aux.getTempoComputacional();
                     System.out.println(aux.getNome() + " finalizou a execucao no tempo: " + tempoAtual + "\n\n\n");
-                    
                     listaOrdenada.add(aux);
                     
+                    //FAZ A ATUALIZAÇÃO DO TEMPO DE ATRASO DA TAREFA
+                    aux.setAtraso(tempoAtual - aux.getTempoComputacional() + aux.getTempoDeIngresso());
+                    
+                    //FAZ A ATUALIZAÇÃO DO TEMPO DE EXECUÇAO DA TAREFA
+                    aux.setExecucao(aux.getTempoComputacional());
+                    
+                    //CALCULA AS SOMAS DAS ESPERAS E EXECUCOES 
                     somaEsperas = somaEsperas + aux.getEspera();
-                    System.out.println("contador222");
+                    somaexecucao = somaexecucao + (aux.getExecucao());
                 }
             }
         }
@@ -108,6 +125,28 @@ public class Sjf {
             double execucaoMedia = somaexecucao / listatarefas.size();
         
             System.out.println("Execucao Média: " + execucaoMedia + "\n \n \n");
+        }
+        
+        public void calculaAtrasos(){
+            int maior = -1;
+        int menor = Integer.MAX_VALUE;
+        Tarefa tarefaMaior = null;
+        Tarefa tarefaMenor = null;
+        
+        for(Tarefa tarefa : listatarefas){
+            if(tarefa.getAtraso() > maior){
+                tarefaMaior = tarefa;
+                maior = (int) tarefa.getAtraso();
+            }
+            
+            if(tarefa.getAtraso() < menor){
+                tarefaMenor = tarefa;
+                menor = (int) tarefa.getAtraso();
+            }
+        }
+        
+        System.out.println("Tarefa com maior atraso: " + tarefaMaior.getNome() + " com atraso total de " + tarefaMaior.getAtraso());
+        System.out.println("Tarefa com menor atraso: " + tarefaMenor.getNome() + " com atraso total de " + tarefaMenor.getAtraso() + "\n\n");
         }
         
         

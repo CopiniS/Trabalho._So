@@ -60,26 +60,45 @@ public class FcFs {
             
             //CALCULA AS SOMAS DAS ESPERAS / EXECUCOES / ATRASOS
             somaEsperas = somaEsperas + tarefa.getEspera();
-            tarefa.setExecucao(tarefa.getEspera() + tarefa.getTempoComputacional());
+            tarefa.setExecucao(tarefa.getTempoComputacional());
             somaexecucao = somaexecucao + (tarefa.getExecucao());
+            tarefa.setAtraso(tempoAtual - tarefa.getTempoComputacional() + tarefa.getTempoDeIngresso());
         }
     }
     
     public void calculaAtrasos(){
+        int maior = -1;
+        int menor = Integer.MAX_VALUE;
+        Tarefa tarefaMaior = null;
+        Tarefa tarefaMenor = null;
         
+        for(Tarefa tarefa : listatarefas){
+            if(tarefa.getAtraso() > maior){
+                tarefaMaior = tarefa;
+                maior = (int) tarefa.getAtraso();
+            }
+            
+            if(tarefa.getAtraso() < menor){
+                tarefaMenor = tarefa;
+                menor = (int) tarefa.getAtraso();
+            }
+        }
+        
+        System.out.println("Tarefa com maior atraso: " + tarefaMaior.getNome() + " com atraso total de " + tarefaMaior.getAtraso());
+        System.out.println("Tarefa com menor atraso: " + tarefaMenor.getNome() + " com atraso total de " + tarefaMenor.getAtraso() + "\n\n");
     }
     
     public void calculaEsperaMedia(){
         double esperaMedia = somaEsperas / listatarefas.size();
         
-        System.out.println("Espera Média: " + esperaMedia + "\n \n \n");
+        System.out.println("Espera Média: " + esperaMedia + "\n \n");
         
     }
     
     public void calculaExecucaoMedia(){
         double execucaoMedia = somaexecucao / listatarefas.size();
         
-        System.out.println("Execucao Média: " + execucaoMedia + "\n \n \n");
+        System.out.println("Execucao Média: " + execucaoMedia + "\n \n");
     }
-      
+    
 }

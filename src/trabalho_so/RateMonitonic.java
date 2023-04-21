@@ -51,15 +51,6 @@ public class RateMonitonic {
         while(tempoAtual < 100){
             
             
-            //VERIFICA SE ALGUMA TAREFA PERDEU DEADLINE
-            for(TarefaRobusta tarefa : listatarefas){
-                if(tarefa.deadline < tempoAtual){
-                    System.out.println("A TAREFA " + tarefa.nome + " PERDEU DEADLINE");
-                    System.exit(0);
-                    
-                }
-            }
-            
             //VERIFICA SE CHEGOU ALGUMA TAREFA NOVA
             if(!listaExecutados.isEmpty()){
                 for(int i=0; i<listaExecutados.size(); i++){
@@ -106,8 +97,40 @@ public class RateMonitonic {
             else{
                 System.out.println("NÃO A TAREFAS A SEREM EXECUTADAS");
                 System.exit(0);
-        }
+            }
+            
+            
+            //VERIFICA SE A TAREFA QUE ESTÁ EM EXECUÇÃO PERDEU DEADLINE
+            if(aux != null && aux.getDeadline() < tempoAtual){
+                System.out.println("A TAREFA " + aux.getNome() + " PERDEU DEADLINE NO INSTANTE " + tempoAtual);
+                break;
+            }
+            
+            boolean quebrarWhile = false;
+            //VERIFICA SE ALGUMA TAREFA DA FILA PERDEU DEADLINE
+            for(TarefaRobusta tarefa : listatarefas){
+                if(tarefa.getDeadline() < tempoAtual){
+                    System.out.println("A TAREFA " + tarefa.nome + " PERDEU DEADLINE NO INSTANTE " + tempoAtual);
+                    quebrarWhile = true;
+                    
+                }
+            }
+            if(quebrarWhile == true){
+                break;
+            }
     }
+    }
+    
+    public void calculaExecucaoMedia(){
+        
+    }
+    
+    public void calculaEsperaMedia(){
+        
+    }
+    
+    public void calculaAtrasos(){
+        
     }
 }
 
