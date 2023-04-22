@@ -12,6 +12,8 @@ public class TarefaRobusta {
     int tempoChegada;
     int execucaoFaltante;
     int deadlineFaltante;
+    double somaAtrasos;
+    int contadorAtrasos;
     
 
     public TarefaRobusta(String nome, int periodo, int tempoComputacional, int tempoChegada) {
@@ -25,7 +27,17 @@ public class TarefaRobusta {
         this.execucao = 0;
         this.execucaoFaltante = tempoComputacional;
         this.deadlineFaltante = this.deadline;
+        this.somaAtrasos = 0;
+        this.contadorAtrasos = 0;
         
+    }
+    
+    public double getSomaAtrasos() {
+        return somaAtrasos;
+    }
+
+    public void setSomaAtrasos(double somaAtrasos) {
+        this.somaAtrasos = somaAtrasos;
     }
 
     public int getPeriodo() {
@@ -106,6 +118,14 @@ public class TarefaRobusta {
 
     public void setDeadlineFaltante(int deadlineFaltante) {
         this.deadlineFaltante = deadlineFaltante;
+    }
+
+    public int getContadorAtrasos() {
+        return contadorAtrasos;
+    }
+
+    public void setContadorAtrasos(int contadorAtrasos) {
+        this.contadorAtrasos = contadorAtrasos;
     }
     
     

@@ -7,7 +7,7 @@ public class RateMonitonic {
     TarefaRobusta t1, t2, t3, t4;
     ArrayList<TarefaRobusta> listaExecutados = new ArrayList();
     ArrayList<TarefaRobusta> listatarefas = new ArrayList();
-    int contTarefas = 4;
+    int contTarefas = 0;
     int somaEsperas = 0;
     int somaExecucoes = 0;
 
@@ -46,6 +46,7 @@ public class RateMonitonic {
     //FAZ O ESCALONAMENTO
     public void escalonar(){
         int tempoAtual = 0;
+        int tempoAux = 0;
         addLista();
         ordenaLista();
         
@@ -60,6 +61,7 @@ public class RateMonitonic {
                     if(listaExecutados.get(i).getTempoChegada() == tempoAtual){
                         listatarefas.add(listaExecutados.get(i));
                         contTarefas++;
+                        tempoAux = 0;
                     }
                 }
             }    
@@ -79,17 +81,22 @@ public class RateMonitonic {
                 
                 //ATUALIZA O TEMPO DE ESPERA
                 if(aux.getTempoComputacional() == aux.getExecucaoFaltante()){
-                aux.setEspera(tempoAtual - aux.getTempoChegada());
+                    
+                    aux.setEspera(tempoAtual - aux.getTempoChegada());
+                
+                    //SOMA DAS ESPERAS
+                    somaEsperas = somaEsperas + aux.getEspera();
                 }
+                
+                
                 
                 System.out.println(aux.getNome() + " está sendo executada no instante " + tempoAtual);
                 aux.setExecucaoFaltante(aux.getExecucaoFaltante() - 1);
                 aux.setTempoChegada(aux.getTempoChegada() + 1);
-                tempoAtual = tempoAtual + 1;
+                tempoAtual++;
+                tempoAux++;
                
                 
-                //SOMA DAS ESPERAS E DAS EXECUCOES
-                somaEsperas = somaEsperas + aux.getEspera();
                 
                 //VERIFICA SE ACABOU A EXECUÇÃO DA TAREFA QUE ESTAVA EXECUTANDO
                 if(aux.execucaoFaltante == 0){
@@ -97,15 +104,25 @@ public class RateMonitonic {
                      + aux.getNome() + "Finalizou a execucao no instante " + String.valueOf(tempoAtual)
                       + "\n \n \n \n");
                     
+                    
+                    
+                    
+                    //ATUALIZA O TEMPO DE EXECUÇÃO
+                    aux.setExecucao(tempoAux - aux.getEspera());
+                    System.out.println(aux.getExecucao());
+                    
+                    //SOMA DAS EXECUCOES
+                    somaExecucoes = somaExecucoes + aux.getExecucao();
+                    
+                    
+                    //ATUALIZA O TEMPO DE ATRASO
+                    aux.setAtraso(tempoAtual - (aux.getTempoComputacional() + aux.getTempoChegada()));
+                    aux.setSomaAtrasos(aux.getSomaAtrasos() + (double)(aux.getAtraso()));
+                    
                     //ATUALIZA AS FUNÇÕES PARA A EXECUÇÃO
                     aux.setTempoChegada(aux.getTempoChegada() + aux.getPeriodo() - aux.getTempoComputacional());
                     aux.setDeadline(aux.getDeadline() + aux.getPeriodo());
                     aux.setExecucaoFaltante(aux.getTempoComputacional());
-                    
-                    //ATUALIZA O TEMPO DE EXECUÇÃO
-                    aux.setExecucao(tempoAtual - aux.getEspera());
-                    
-                    //ATUALIZA O TEMPO DE ATRASO
                     
                     
                     //ADICIONA A LISTA DE EXECUTADOS;
@@ -113,6 +130,8 @@ public class RateMonitonic {
                     aux = null;
                     
                 }
+                
+                
                 
             }
             else{
@@ -133,7 +152,6 @@ public class RateMonitonic {
                 if(tarefa.getDeadline() < tempoAtual){
                     System.out.println("A TAREFA " + tarefa.nome + " PERDEU DEADLINE NO INSTANTE " + tempoAtual);
                     quebrarWhile = true;
-                    
                 }
             }
             if(quebrarWhile == true){
@@ -143,14 +161,42 @@ public class RateMonitonic {
     }
     
     public void calculaExecucaoMedia(){
+        double resultado = somaExecucoes / listaExecutados.size();
         
+        System.out.println("Tempo de Execucao media: " + resultado);
     }
     
     public void calculaEsperaMedia(){
+        double resultado = somaEsperas / (double)(contTarefas);
         
+        System.out.println("Tempo de Espera media: " + resultado);
     }
     
     public void calculaAtrasos(){
+        ArrayList<Double> resultados = new ArrayList();
+        for(int i= 0; i<listatarefas.size(); i++){
+          resultados.add(listatarefas.get(i).getSomaAtrasos() / listatarefas.get(i).getContadorAtrasos());
+        }
+       
+        TarefaRobusta AtrasoMaior = null;
+        double maior = -1;
+        TarefaRobusta atrasoMenor = null;
+        double menor = Integer.MAX_VALUE;
+        for(int i=0; i<listatarefas.size(); i++){
+                if(resultados.get(i) > maior){
+                    maior = resultados.get(i);
+                    AtrasoMaior = listatarefas.get(i);
+                }
+                
+                if(resultados.get(i) < menor){
+                    menor = resultados.get(i);
+                    atrasoMenor= listatarefas.get(i);
+                }
+                
+        }
+        
+        System.out.println("Tarefa com maior atraso: " + AtrasoMaior + " com atraso medio de " + maior);
+        System.out.println("Tarefa com menor atraso: " + atrasoMenor + " com atraso medio de " + menor);
         
     }
 }
