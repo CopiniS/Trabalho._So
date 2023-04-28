@@ -13,10 +13,10 @@ public class RateMonitonic {
 
     //INICIALIZA AS TAREFAS
     public RateMonitonic() {
-        this.t1 = new TarefaRobusta("t1", 6, 3, 0);
-        this.t2 = new TarefaRobusta("t2", 10, 5, 0);
-        this.t3 = new TarefaRobusta("t3", 10, 5, 0);
-        this.t4 = new TarefaRobusta("t4", 6, 3, 0);
+        this.t1 = new TarefaRobusta("t1", 100, 20, 0);
+        this.t2 = new TarefaRobusta("t2", 150, 40, 0);
+        this.t3 = new TarefaRobusta("t3", 350, 100, 0);
+        
         
     }
     
@@ -24,7 +24,6 @@ public class RateMonitonic {
         listatarefas.add(t1);
         listatarefas.add(t2);
         listatarefas.add(t3);
-        listatarefas.add(t4);
         
     }
     
@@ -52,21 +51,22 @@ public class RateMonitonic {
         
         TarefaRobusta aux = null;
         //LIMITA A EXECUCAO NO TEMPO DE 100 UNIDADES
-        while(tempoAtual < 100){
+        while(tempoAtual < 1000){
             
             
             //VERIFICA SE CHEGOU ALGUMA TAREFA NOVA
-            if(!listaExecutados.isEmpty()){
-                for(int i=0; i<listaExecutados.size(); i++){
-                    if(listaExecutados.get(i).getTempoChegada() == tempoAtual){
-                        listatarefas.add(listaExecutados.get(i));
-                        contTarefas++;
-                        tempoAux = 0;
+            if(listaExecutados.size() != 0){
+                for(TarefaRobusta tarefa : listaExecutados){
+                    if(tarefa.getTempoChegada() == tempoAtual){
+                        listatarefas.add(tarefa);
+                        System.out.println(listaExecutados.size());
+                        
                     }
                 }
             }    
             //CHAMA O ORDENA LISTA
             ordenaLista();
+            System.out.println(contTarefas);
             
             //VERIFICA A PRIORIDADE LISTA
             for(int i=0; i<listatarefas.size(); i++){
@@ -83,6 +83,7 @@ public class RateMonitonic {
                 if(aux.getTempoComputacional() == aux.getExecucaoFaltante()){
                     
                     aux.setEspera(tempoAtual - aux.getTempoChegada());
+                    System.out.println("tempo de espera de " + aux.getNome() + " " + aux.getEspera());
                 
                     //SOMA DAS ESPERAS
                     somaEsperas = somaEsperas + aux.getEspera();
@@ -94,7 +95,6 @@ public class RateMonitonic {
                 aux.setExecucaoFaltante(aux.getExecucaoFaltante() - 1);
                 aux.setTempoChegada(aux.getTempoChegada() + 1);
                 tempoAtual++;
-                tempoAux++;
                
                 
                 
@@ -108,16 +108,11 @@ public class RateMonitonic {
                     
                     
                     //ATUALIZA O TEMPO DE EXECUÇÃO
-                    aux.setExecucao(tempoAux - aux.getEspera());
-                    System.out.println(aux.getExecucao());
+                    aux.setExecucao(aux.tempoComputacional);
                     
                     //SOMA DAS EXECUCOES
                     somaExecucoes = somaExecucoes + aux.getExecucao();
                     
-                    
-                    //ATUALIZA O TEMPO DE ATRASO
-                    aux.setAtraso(tempoAtual - (aux.getTempoComputacional() + aux.getTempoChegada()));
-                    aux.setSomaAtrasos(aux.getSomaAtrasos() + (double)(aux.getAtraso()));
                     
                     //ATUALIZA AS FUNÇÕES PARA A EXECUÇÃO
                     aux.setTempoChegada(aux.getTempoChegada() + aux.getPeriodo() - aux.getTempoComputacional());
@@ -173,30 +168,25 @@ public class RateMonitonic {
     }
     
     public void calculaAtrasos(){
-        ArrayList<Double> resultados = new ArrayList();
-        for(int i= 0; i<listatarefas.size(); i++){
-          resultados.add(listatarefas.get(i).getSomaAtrasos() / listatarefas.get(i).getContadorAtrasos());
-        }
-       
-        TarefaRobusta AtrasoMaior = null;
-        double maior = -1;
-        TarefaRobusta atrasoMenor = null;
-        double menor = Integer.MAX_VALUE;
-        for(int i=0; i<listatarefas.size(); i++){
-                if(resultados.get(i) > maior){
-                    maior = resultados.get(i);
-                    AtrasoMaior = listatarefas.get(i);
-                }
-                
-                if(resultados.get(i) < menor){
-                    menor = resultados.get(i);
-                    atrasoMenor= listatarefas.get(i);
-                }
-                
+        int maior = -1;
+        int menor = Integer.MAX_VALUE;
+        TarefaRobusta tarefaMaior = null;
+        TarefaRobusta tarefaMenor = null;
+        
+        for(TarefaRobusta tarefa : listatarefas){
+            if(tarefa.getEspera()> maior){
+                tarefaMaior = tarefa;
+                maior = (int) tarefa.getEspera();
+            }
+            
+            if(tarefa.getEspera()< menor){
+                tarefaMenor = tarefa;
+                menor = (int) tarefa.getEspera();
+            }
         }
         
-        System.out.println("Tarefa com maior atraso: " + AtrasoMaior + " com atraso medio de " + maior);
-        System.out.println("Tarefa com menor atraso: " + atrasoMenor + " com atraso medio de " + menor);
+        System.out.println("Tarefa com maior atraso: " + tarefaMaior.getNome() + " com atraso total de " + tarefaMaior.getEspera());
+        System.out.println("Tarefa com menor atraso: " + tarefaMenor.getNome() + " com atraso total de " + tarefaMenor.getEspera()+ "\n\n");
         
     }
 }

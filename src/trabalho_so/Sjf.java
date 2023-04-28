@@ -10,10 +10,10 @@ public class Sjf {
     int somaexecucao = 0;
     
     public Sjf() {
-        this.t1 = new Tarefa("T1", 3, 0);
-        this.t2 = new Tarefa("T2",5, 3);
-        this.t3 = new Tarefa("T3",5, 2);
-        this.t4 = new Tarefa("T4",3, 1);
+        this.t1 = new Tarefa("T1", 5, 0);
+        this.t2 = new Tarefa("T2",2, 0);
+        this.t3 = new Tarefa("T3",4, 1);
+        this.t4 = new Tarefa("T4",3, 3);
     }
     
     public void addLista(){
@@ -59,7 +59,7 @@ public class Sjf {
                     //COMPARA AS TAREFAS PARA ACHAR A COM MENOR TEMPO COMPUTACIONAL QUE JA TENHA 
                     //INGRESSADO NO SISTEMA, OU SEJA QUE O TEMPO DE INGRESSO SEJA MENOR QUE O TEMPO ATUAL
                     if((listatarefas.get(i).getTempoComputacional() > listatarefas.get(j).getTempoComputacional() || listaOrdenada.contains(listatarefas.get(i)))
-                        && listatarefas.get(j).getTempoDeIngresso() < tempoAtual
+                        && listatarefas.get(j).getTempoDeIngresso() <= tempoAtual
                         && (aux == null || listatarefas.get(j).getTempoComputacional() < aux.getTempoComputacional())){
                         aux = listatarefas.get(j);
                         
@@ -80,8 +80,6 @@ public class Sjf {
                     System.out.println(listatarefas.get(i).getNome() + " finalizou a execucao no tempo: " + tempoAtual + "\n\n\n");
                     listaOrdenada.add(listatarefas.get(i));
                     
-                    //FAZ A ATUALIZAÇÃO DO TEMPO DE ATRASO DA TAREFA
-                    listatarefas.get(i).setAtraso(tempoAtual - (listatarefas.get(i).getTempoComputacional() + listatarefas.get(i).getTempoDeIngresso()));
                     
                     //FAZ A ATUALIZAÇÃO DO TEMPO DE EXECUÇAO DA TAREFA
                     listatarefas.get(i).setExecucao(listatarefas.get(i).getTempoComputacional());
@@ -103,8 +101,6 @@ public class Sjf {
                     System.out.println(aux.getNome() + " finalizou a execucao no tempo: " + tempoAtual + "\n\n\n");
                     listaOrdenada.add(aux);
                     
-                    //FAZ A ATUALIZAÇÃO DO TEMPO DE ATRASO DA TAREFA
-                    aux.setAtraso(tempoAtual - aux.getTempoComputacional() + aux.getTempoDeIngresso());
                     
                     //FAZ A ATUALIZAÇÃO DO TEMPO DE EXECUÇAO DA TAREFA
                     aux.setExecucao(aux.getTempoComputacional());
@@ -136,19 +132,19 @@ public class Sjf {
         Tarefa tarefaMenor = null;
         
         for(Tarefa tarefa : listatarefas){
-            if(tarefa.getAtraso() > maior){
+            if(tarefa.getEspera()> maior){
                 tarefaMaior = tarefa;
-                maior = (int) tarefa.getAtraso();
+                maior = (int) tarefa.getEspera();
             }
             
-            if(tarefa.getAtraso() < menor){
+            if(tarefa.getEspera()< menor){
                 tarefaMenor = tarefa;
-                menor = (int) tarefa.getAtraso();
+                menor = (int) tarefa.getEspera();
             }
         }
         
-        System.out.println("Tarefa com maior atraso: " + tarefaMaior.getNome() + " com atraso total de " + tarefaMaior.getAtraso());
-        System.out.println("Tarefa com menor atraso: " + tarefaMenor.getNome() + " com atraso total de " + tarefaMenor.getAtraso() + "\n\n");
+        System.out.println("Tarefa com maior atraso: " + tarefaMaior.getNome() + " com atraso total de " + tarefaMaior.getEspera());
+        System.out.println("Tarefa com menor atraso: " + tarefaMenor.getNome() + " com atraso total de " + tarefaMenor.getEspera()+ "\n\n");
         }
         
         

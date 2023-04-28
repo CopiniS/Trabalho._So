@@ -109,9 +109,7 @@ public class Janela extends javax.swing.JFrame {
                 RateMonitonic sistema4 = new RateMonitonic();
                 sistema4.escalonar();
                 System.out.println("///////////////////////////////////////////////////////////////////\n///////////////////////////////////////////////////////////////////\n\n");
-                sistema4.calculaExecucaoMedia();
-                sistema4.calculaEsperaMedia();
-                sistema4.calculaAtrasos();
+                
                 break;
                 
             case "EDF": 
