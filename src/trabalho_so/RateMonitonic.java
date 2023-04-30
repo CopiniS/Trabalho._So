@@ -45,7 +45,6 @@ public class RateMonitonic {
     //FAZ O ESCALONAMENTO
     public void escalonar(){
         int tempoAtual = 0;
-        int tempoAux = 0;
         addLista();
         ordenaLista();
         
@@ -56,23 +55,25 @@ public class RateMonitonic {
             
             //VERIFICA SE CHEGOU ALGUMA TAREFA NOVA
             if(listaExecutados.size() != 0){
+                System.out.println(listaExecutados.size());
+               
                 for(TarefaRobusta tarefa : listaExecutados){
                     if(tarefa.getTempoChegada() == tempoAtual){
                         listatarefas.add(tarefa);
-                        System.out.println(listaExecutados.size());
+                        listaExecutados.remove(tarefa);
+                        
                         
                     }
                 }
             }    
             //CHAMA O ORDENA LISTA
             ordenaLista();
-            System.out.println(contTarefas);
             
             //VERIFICA A PRIORIDADE LISTA
-            for(int i=0; i<listatarefas.size(); i++){
-                if(listatarefas.get(i).getTempoChegada() <= tempoAtual && (aux == null || listatarefas.get(i).getPeriodo() < aux.getPeriodo())){
-                    aux = listatarefas.get(i);
-                    listatarefas.remove(listatarefas.get(i));
+            for(TarefaRobusta tarefa : listatarefas){
+                if(tarefa.getTempoChegada() <= tempoAtual && (aux == null || tarefa.getPeriodo() < aux.getPeriodo())
+                   && !listaExecutados.contains(tarefa)){
+                    aux = tarefa;
                 }
             }
             
@@ -83,7 +84,6 @@ public class RateMonitonic {
                 if(aux.getTempoComputacional() == aux.getExecucaoFaltante()){
                     
                     aux.setEspera(tempoAtual - aux.getTempoChegada());
-                    System.out.println("tempo de espera de " + aux.getNome() + " " + aux.getEspera());
                 
                     //SOMA DAS ESPERAS
                     somaEsperas = somaEsperas + aux.getEspera();
@@ -131,7 +131,7 @@ public class RateMonitonic {
             }
             else{
                 System.out.println("NÃO A TAREFAS A SEREM EXECUTADAS");
-                System.exit(0);
+                tempoAtual++;
             }
             
             

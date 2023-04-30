@@ -10,18 +10,14 @@ public class EDF {
 
     //CRIA AS TAREFAS
     public EDF() {
-        this.t1 = new TarefaRobusta("t1", 6, 3, 0);
-        this.t2 = new TarefaRobusta("t2", 10, 5, 0);
-        this.t3 = new TarefaRobusta("t3", 10, 5, 0);
-        this.t4 = new TarefaRobusta("t4", 6, 3, 0);
+        this.t1 = new TarefaRobusta("t1", 20, 10, 0);
+        this.t2 = new TarefaRobusta("t2", 50, 25, 0);
         
     }
     
     public void addLista(){
         listatarefas.add(t1);
         listatarefas.add(t2);
-        listatarefas.add(t3);
-        listatarefas.add(t4);
         
     }
     
