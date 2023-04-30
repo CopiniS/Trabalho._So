@@ -137,7 +137,7 @@ public class RateMonitonic {
                 
             }
             else{
-                System.out.println("NÃO A TAREFAS A SEREM EXECUTADAS");
+                System.out.println("NÃO A TAREFAS A SEREM EXECUTADAS NO TEMPO " + tempoAtual);
                 tempoAtual++;
             }
             
