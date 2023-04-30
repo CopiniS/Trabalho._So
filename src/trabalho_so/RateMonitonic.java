@@ -13,9 +13,10 @@ public class RateMonitonic {
 
     //INICIALIZA AS TAREFAS
     public RateMonitonic() {
-        this.t1 = new TarefaRobusta("t1", 100, 20, 0);
-        this.t2 = new TarefaRobusta("t2", 150, 40, 0);
-        this.t3 = new TarefaRobusta("t3", 350, 100, 0);
+        this.t1 = new TarefaRobusta("t1", 6, 3, 0);
+        this.t2 = new TarefaRobusta("t2", 10, 5, 0);
+        this.t3 = new TarefaRobusta("t3", 10, 5, 0);
+        this.t4 = new TarefaRobusta("t4", 6, 3, 0);
         
         
     }
@@ -24,6 +25,7 @@ public class RateMonitonic {
         listatarefas.add(t1);
         listatarefas.add(t2);
         listatarefas.add(t3);
+        listatarefas.add(t4);
         
     }
     
@@ -55,17 +57,22 @@ public class RateMonitonic {
             
             //VERIFICA SE CHEGOU ALGUMA TAREFA NOVA
             if(listaExecutados.size() != 0){
-                System.out.println(listaExecutados.size());
-               
-                for(TarefaRobusta tarefa : listaExecutados){
-                    if(tarefa.getTempoChegada() == tempoAtual){
-                        listatarefas.add(tarefa);
-                        listaExecutados.remove(tarefa);
-                        
-                        
+                
+                try{
+                    for(TarefaRobusta tarefa : listaExecutados){
+                        if(tarefa.getTempoChegada() == tempoAtual){
+                            listatarefas.add(tarefa);
+                            listaExecutados.remove(tarefa);
+                        }
+                      
                     }
+                        
                 }
-            }    
+                catch(Exception e){
+                }
+                    
+            }
+                
             //CHAMA O ORDENA LISTA
             ordenaLista();
             
@@ -136,20 +143,21 @@ public class RateMonitonic {
             
             
             //VERIFICA SE A TAREFA QUE ESTÁ EM EXECUÇÃO PERDEU DEADLINE
+            boolean quebrarWhile1 = false;
             if(aux != null && aux.getDeadline() < tempoAtual){
                 System.out.println("A TAREFA " + aux.getNome() + " PERDEU DEADLINE NO INSTANTE " + tempoAtual);
-                break;
+                quebrarWhile1 = true;
             }
             
-            boolean quebrarWhile = false;
+            boolean quebrarWhile2 = false;
             //VERIFICA SE ALGUMA TAREFA DA FILA PERDEU DEADLINE
             for(TarefaRobusta tarefa : listatarefas){
-                if(tarefa.getDeadline() < tempoAtual){
+                if(tarefa.getDeadline() < tempoAtual && !tarefa.equals(aux)){
                     System.out.println("A TAREFA " + tarefa.nome + " PERDEU DEADLINE NO INSTANTE " + tempoAtual);
-                    quebrarWhile = true;
+                    quebrarWhile2 = true;
                 }
             }
-            if(quebrarWhile == true){
+            if(quebrarWhile1 == true || quebrarWhile2 == true){
                 break;
             }
     }
