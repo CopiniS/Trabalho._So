@@ -108,6 +108,9 @@ public class Janela extends javax.swing.JFrame {
                 System.out.println("ALGORITMO DE ESCALONAMENTO RATE MONITONIC \n");
                 RateMonitonic sistema4 = new RateMonitonic();
                 sistema4.escalonar();
+                sistema4.calculaExecucaoMedia();
+                sistema4.calculaEsperaMedia();
+                sistema4.calculaAtrasos();
                 System.out.println("///////////////////////////////////////////////////////////////////\n///////////////////////////////////////////////////////////////////\n\n");
                 
                 break;

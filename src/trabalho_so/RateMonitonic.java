@@ -60,10 +60,9 @@ public class RateMonitonic {
                 
                 try{
                     for(TarefaRobusta tarefa : listaExecutados){
-                        if(tarefa.getTempoChegada() == tempoAtual){
+                        if(tarefa.getTempoChegada() <= tempoAtual){
                             listaExecutados.remove(tarefa);
                         }
-                        System.out.println(listatarefas.size());
                       
                     }
                         
@@ -94,6 +93,8 @@ public class RateMonitonic {
                 
                     //SOMA DAS ESPERAS
                     somaEsperas = somaEsperas + aux.getEspera();
+                    
+                    contTarefas++;
                 }
                 
                 
@@ -111,14 +112,6 @@ public class RateMonitonic {
                      + aux.getNome() + "Finalizou a execucao no instante " + String.valueOf(tempoAtual)
                       + "\n \n \n \n");
                     
-                    
-                    
-                    
-                    //ATUALIZA O TEMPO DE EXECUÇÃO
-                    aux.setExecucao(aux.tempoComputacional);
-                    
-                    //SOMA DAS EXECUCOES
-                    somaExecucoes = somaExecucoes + aux.getExecucao();
                     
                     
                     //ATUALIZA AS FUNÇÕES PARA A EXECUÇÃO
@@ -142,30 +135,28 @@ public class RateMonitonic {
             }
             
             
-            //VERIFICA SE A TAREFA QUE ESTÁ EM EXECUÇÃO PERDEU DEADLINE
-            boolean quebrarWhile1 = false;
-            if(aux != null && aux.getDeadline() < tempoAtual){
-                System.out.println("A TAREFA " + aux.getNome() + " PERDEU DEADLINE NO INSTANTE " + tempoAtual);
-                quebrarWhile1 = true;
-            }
-            
-            boolean quebrarWhile2 = false;
+            boolean quebrarWhile = false;
             //VERIFICA SE ALGUMA TAREFA DA FILA PERDEU DEADLINE
             for(TarefaRobusta tarefa : listatarefas){
-                if(tarefa.getDeadline() < tempoAtual && !tarefa.equals(aux)){
+                if(tarefa.getDeadline() < tempoAtual){
                     System.out.println("A TAREFA " + tarefa.nome + " PERDEU DEADLINE NO INSTANTE " + tempoAtual);
-                    quebrarWhile2 = true;
+                    quebrarWhile = true;
                 }
             }
-            if(quebrarWhile1 == true || quebrarWhile2 == true){
+            if(quebrarWhile == true){
                 break;
             }
     }
     }
     
     public void calculaExecucaoMedia(){
-        double resultado = somaExecucoes / listaExecutados.size();
+        double resultado;
         
+        for(TarefaRobusta tarefa : listatarefas){
+            somaExecucoes = somaExecucoes + tarefa.getTempoComputacional();
+        }
+        resultado = somaExecucoes / listatarefas.size();
+                
         System.out.println("Tempo de Execucao media: " + resultado);
     }
     

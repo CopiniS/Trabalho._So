@@ -7,6 +7,8 @@ public class EDF {
      TarefaRobusta t1, t2, t3, t4;
     ArrayList<TarefaRobusta> listaExecutados = new ArrayList();
     ArrayList<TarefaRobusta> listatarefas = new ArrayList();
+    double somaEsperas = 0;
+    int contTarefas = 0;
 
     //CRIA AS TAREFAS
     public EDF() {
@@ -76,6 +78,18 @@ public class EDF {
             
             //EXECUTA UMA UNIDADE DE TEMPO    
             if(aux != null){
+                
+                //ATUALIZA O TEMPO DE ESPERA
+                if(aux.getTempoComputacional() == aux.getExecucaoFaltante()){
+                    
+                    aux.setEspera(tempoAtual - aux.getTempoChegada());
+                
+                    //SOMA DAS ESPERAS
+                    somaEsperas = somaEsperas + aux.getEspera();
+                    
+                    contTarefas++;
+                }
+                
                 System.out.println(aux.getNome() + " está sendo executada no instante " + tempoAtual);
                 
                 aux.setExecucaoFaltante(aux.getExecucaoFaltante() - 1);
@@ -97,7 +111,6 @@ public class EDF {
                       + "\n \n \n \n");
                     
                     aux.setTempoChegada(aux.getTempoChegada() + aux.getPeriodo());
-                    System.out.println("tempo de chegada: "+aux.getTempoChegada());
                     listaExecutados.add(aux);
                     aux.setDeadline(aux.getDeadline() + aux.getPeriodo());
                     aux.setExecucaoFaltante(aux.getTempoComputacional());
@@ -112,37 +125,60 @@ public class EDF {
             }
             
             
-            //VERIFICA SE A TAREFA QUE ESTÁ EM EXECUÇÃO PERDEU DEADLINE
-            boolean quebrarWhile1 = false;
-            if(aux != null && aux.getDeadlineFaltante() < 0){
-                System.out.println("A TAREFA " + aux.getNome() + " PERDEU DEADLINE NO INSTANTE " + tempoAtual);
-                quebrarWhile1 = true;
-                
-            }
             
-            boolean quebrarWhile2 = false;
+            
+            boolean quebrarWhile = false;
             //VERIFICA SE ALGUMA TAREFA QUE ESTÁ NA FILA PERDEU DEADLINE
             for(int i=0; i<listatarefas.size();i++){
                 if(!listatarefas.isEmpty() && listatarefas.get(i).getDeadlineFaltante() < 0 && !listatarefas.get(i).equals(aux)){
                     System.out.println("A TAREFA " + listatarefas.get(i).getNome() + " PERDEU DEADLINE NO INSTANTE " + tempoAtual);
-                    quebrarWhile2 = true;
+                    quebrarWhile = true;
                 }
             }
-            if(quebrarWhile1 == true || quebrarWhile2 == true){
+            if(quebrarWhile == true){
                 break;
             }
     }
     }
     
     public void calculaEsperaMerdia(){
+        double resultado = somaEsperas / (double)(contTarefas);
         
+        System.out.println("Tempo de Espera media: " + resultado);
     }
     
     public void calculaExecucaoMedia(){
-    
+    double resultado;
+    double somaExecucoes = 0;
+        
+        for(TarefaRobusta tarefa : listatarefas){
+            somaExecucoes = somaExecucoes + tarefa.getTempoComputacional();
+        }
+        resultado = somaExecucoes / listatarefas.size();
+                
+        System.out.println("Tempo de Execucao media: " + resultado);
     }
     
     public void calculaAtrasos(){
+        int maior = -1;
+        int menor = Integer.MAX_VALUE;
+        TarefaRobusta tarefaMaior = null;
+        TarefaRobusta tarefaMenor = null;
+        
+        for(TarefaRobusta tarefa : listatarefas){
+            if(tarefa.getEspera()> maior){
+                tarefaMaior = tarefa;
+                maior = (int) tarefa.getEspera();
+            }
+            
+            if(tarefa.getEspera()< menor){
+                tarefaMenor = tarefa;
+                menor = (int) tarefa.getEspera();
+            }
+        }
+        
+        System.out.println("Tarefa com maior atraso: " + tarefaMaior.getNome() + " com atraso total de " + tarefaMaior.getEspera());
+        System.out.println("Tarefa com menor atraso: " + tarefaMenor.getNome() + " com atraso total de " + tarefaMenor.getEspera()+ "\n\n");
         
     }
 }

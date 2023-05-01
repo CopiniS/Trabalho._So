@@ -25,6 +25,7 @@ public class Tarefa implements Comparable<Tarefa>{
 
     public int getTempoComputacional() {
         return tempoComputacional;
+        
     }
 
     public void setTempoComputacional(int tempoComputacional) {
