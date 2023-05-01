@@ -5,7 +5,6 @@ public class Tarefa implements Comparable<Tarefa>{
     int tempoComputacional;
     int tempoDeIngresso;
     int espera;
-    int atraso;
     int execucao;
     int tempofaltante;
     String nome;
@@ -15,7 +14,6 @@ public class Tarefa implements Comparable<Tarefa>{
         this.tempoComputacional = tempoComputacional;
         this.tempoDeIngresso = tempoDeIngresso;
         this.espera = 0;
-        this.atraso = 0;
         this.execucao = 0;
         this.nome = nome;
         this.tempofaltante = tempoComputacional;
@@ -39,15 +37,7 @@ public class Tarefa implements Comparable<Tarefa>{
     public void setTempoDeIngresso(int tempoDeIngresso) {
         this.tempoDeIngresso = tempoDeIngresso;
     }
-
-    public double getAtraso() {
-        return atraso;
-    }
-
-    public void setAtraso(int atraso) {
-        this.atraso = atraso;
-    }
-
+    
     public int getEspera() {
         return espera;
     }

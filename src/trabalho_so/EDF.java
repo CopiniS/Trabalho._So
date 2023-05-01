@@ -130,7 +130,7 @@ public class EDF {
             boolean quebrarWhile = false;
             //VERIFICA SE ALGUMA TAREFA QUE ESTÁ NA FILA PERDEU DEADLINE
             for(int i=0; i<listatarefas.size();i++){
-                if(!listatarefas.isEmpty() && listatarefas.get(i).getDeadlineFaltante() < 0 && !listatarefas.get(i).equals(aux)){
+                if(!listatarefas.isEmpty() && listatarefas.get(i).getDeadlineFaltante() < 0){
                     System.out.println("A TAREFA " + listatarefas.get(i).getNome() + " PERDEU DEADLINE NO INSTANTE " + tempoAtual);
                     quebrarWhile = true;
                 }

@@ -73,7 +73,12 @@ public class Janela extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void bt_iniciarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_bt_iniciarMouseClicked
-         switch(cb_escalonadores.getSelectedItem().toString()){
+        System.out.println("T1 - Tempo Computacional: 3 - Tempo de ingresso: 0");
+        System.out.println("T2 - Tempo Computacional: 5 - Tempo de ingresso: 3");
+        System.out.println("T3 - Tempo Computacional: 5 - Tempo de ingresso: 2");
+        System.out.println("T4 - Tempo Computacional: 3 - Tempo de ingresso: 1");
+        
+        switch(cb_escalonadores.getSelectedItem().toString()){
             case "FCFS":
                 System.out.println("ALGORITMO DE ESCALONAMENTO FCFS \n");
                 FcFs sistema1 = new FcFs();

@@ -34,20 +34,19 @@ public class RoundRobin {
     //ORDENA AS TAREFAS POR TEMPO DE INGRESSO
     public void ordenarTempoChegada(){
         Collections.sort(listatarefas);
-        
     }
     
     
     //EXECUTA
     public void escalona(){
         addLista();
-        ordenarTempoChegada();
         int tempoAtual = 0;
-         
+        Tarefa aux = null;
         int numero = listatarefas.size();
         //REPETE O PROCESSO ATÉ QUE A QUANTIDADE DE TAREFASS NA LISTA DAS TAREFAS COMPLETAS SEJA IGUAL A QUANTIDADE DE TAREFAS EXISTENTES NO SISTEMA
         while(listaExecutados.size() < numero){
-                Tarefa aux = null;
+               
+                ordenarTempoChegada();
                 
                
                 for(int i=0; i<listatarefas.size(); i++){
@@ -57,7 +56,7 @@ public class RoundRobin {
                 }
                 
                 
-                //VERIFICA SE A TAREFA NÃO TERMINOU A SUA EXECUCAO AINDA
+                //EXECUTA
                 if(aux != null){
                     System.out.println(aux.getNome() + " está executando no tempo " + tempoAtual);
                     
@@ -78,27 +77,29 @@ public class RoundRobin {
                         listatarefas.remove(aux);
                         listaExecutados.add(aux);
                         
-                        
-                        //FAZ A ATUALIZAÇÃO DO TEMPO DE EXECUCAO DA TAREFA
-                        aux.setExecucao(tempoAtual - aux.getEspera());
-                        
-                        //FAZ A ATUALIZAÇÃO DO TEMPO DE ATRASO DA TAREFA
-                        aux.setAtraso(tempoAtual - (aux.getTempoComputacional() + aux.getTempoDeIngresso()));
-                    } 
+                    }
+                    
+                    else{
+                        System.out.println(aux.getNome() + " está executando no tempo " + String.valueOf(tempoAtual-1));
+                    }
                     
                     
                     //CALCULA AS SOMAS DAS ESPERAS E EXECUCOES
                     somaEsperas = somaEsperas + aux.getEspera();
-                    somaExecucoes = somaExecucoes + aux.getExecucao();
                     
                 }
         }
     }
     
     public void calculaExecucaoMedia(){
-        double execucaoMedia = somaExecucoes / listaExecutados.size();
+        double resultado;
         
-        System.out.println("Execucao Média: " + execucaoMedia);
+        for(Tarefa tarefa : listaExecutados){
+            somaExecucoes = somaExecucoes + tarefa.getTempoComputacional();
+        }
+        resultado = somaExecucoes / listaExecutados.size();
+                
+        System.out.println("Tempo de Execucao media: " + resultado);
     }
     
     public void calculaEsperaMedia(){

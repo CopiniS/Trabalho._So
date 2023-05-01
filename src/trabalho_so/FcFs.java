@@ -14,10 +14,10 @@ public class FcFs {
     
 
     public FcFs() {
-        t1 = new Tarefa("T1",5, 0); 
-        t2 = new Tarefa("T2",2, 0);  
-        t3 = new Tarefa("T3",4, 1); 
-        t4 = new Tarefa("T4",3, 3); 
+        t1 = new Tarefa("T1",3, 0); 
+        t2 = new Tarefa("T2",5, 3);  
+        t3 = new Tarefa("T3",5, 2); 
+        t4 = new Tarefa("T4",3, 1); 
         listatarefas = new ArrayList();
        
     }
@@ -32,8 +32,17 @@ public class FcFs {
     
     //ORDENA A LISTA
     public void ordenarTempoChegada(){
-        ArrayList<Tarefa> listaOrdenada = new ArrayList();
-        listaOrdenada = (ArrayList) listatarefas.stream().sorted(Comparator.comparing(Tarefa::getTempoDeIngresso)).collect(Collectors.toList());
+        Tarefa aux;
+        for (int i=0; i<listatarefas.size(); i++) {
+            aux = null;
+            for(int j=i+1; j<listatarefas.size(); j++){
+                if(listatarefas.get(i).getTempoDeIngresso() > listatarefas.get(j).getTempoDeIngresso()){
+                    aux = listatarefas.get(i);
+                    listatarefas.set(i, listatarefas.get(j));
+                    listatarefas.set(j, aux);
+                }
+            }
+        }
     }
     
     

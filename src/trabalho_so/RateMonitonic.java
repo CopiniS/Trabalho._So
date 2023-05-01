@@ -17,9 +17,8 @@ public class RateMonitonic {
         this.t2 = new TarefaRobusta("t2", 10, 5, 0);
         this.t3 = new TarefaRobusta("t3", 10, 5, 0);
         this.t4 = new TarefaRobusta("t4", 6, 3, 0);
-        
-        
     }
+        
     
     public void addLista(){
         listatarefas.add(t1);
@@ -52,7 +51,7 @@ public class RateMonitonic {
         
         TarefaRobusta aux = null;
         //LIMITA A EXECUCAO NO TEMPO DE 100 UNIDADES
-        while(tempoAtual < 1000){
+        while(tempoAtual < 100){
             
             
             //VERIFICA SE CHEGOU ALGUMA TAREFA NOVA
@@ -72,9 +71,6 @@ public class RateMonitonic {
                     
             }
                 
-            //CHAMA O ORDENA LISTA
-            ordenaLista();
-            
             //VERIFICA A PRIORIDADE LISTA
             for(TarefaRobusta tarefa : listatarefas){
                 if(tarefa.getTempoChegada() <= tempoAtual && (aux == null || tarefa.getPeriodo() < aux.getPeriodo())
