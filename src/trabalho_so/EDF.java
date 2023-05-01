@@ -10,14 +10,18 @@ public class EDF {
 
     //CRIA AS TAREFAS
     public EDF() {
-        this.t1 = new TarefaRobusta("t1", 20, 10, 0);
-        this.t2 = new TarefaRobusta("t2", 50, 25, 0);
+        this.t1 = new TarefaRobusta("t1", 6, 3, 0);
+        this.t2 = new TarefaRobusta("t2", 10, 5, 0);
+        this.t3 = new TarefaRobusta("t3", 10, 5, 0);
+        this.t4 = new TarefaRobusta("t4", 6, 3, 0);
         
     }
     
     public void addLista(){
         listatarefas.add(t1);
         listatarefas.add(t2);
+        listatarefas.add(t3);
+        listatarefas.add(t4);
         
     }
     
@@ -50,21 +54,24 @@ public class EDF {
             //VERIFICA SE CHEGOU ALGUMA TAREFA NOVA
             if(!listaExecutados.isEmpty()){
                 for(int i=0; i<listaExecutados.size(); i++){
-                    if(listaExecutados.get(i).getTempoChegada() == tempoAtual){
-                        listatarefas.add(listaExecutados.get(i));
+                    if(listaExecutados.get(i).getTempoChegada() <= tempoAtual){
                         listaExecutados.remove(listaExecutados.get(i));
+                        
                     }
                 }
+               
             }    
+            
             //CHAMA O ORDENA LISTA
             ordenaLista();
             
             //VERIFICA A PRIORIDADE LISTA
-            for(int i=0; i<listatarefas.size(); i++){
-                if(listatarefas.get(i).getTempoChegada() <= tempoAtual && (aux == null || listatarefas.get(i).getDeadlineFaltante()< aux.getDeadlineFaltante())
-                        && !listaExecutados.contains(listatarefas.get(i))){
-                    aux = listatarefas.get(i);
+            for(TarefaRobusta tarefa : listatarefas){
+                if(tarefa.getTempoChegada() <= tempoAtual && (aux == null || tarefa.getDeadlineFaltante()< aux.getDeadlineFaltante())
+                        && !listaExecutados.contains(tarefa)){
+                    aux = tarefa;
                 }
+                
             }
             
             //EXECUTA UMA UNIDADE DE TEMPO    
@@ -72,14 +79,13 @@ public class EDF {
                 System.out.println(aux.getNome() + " está sendo executada no instante " + tempoAtual);
                 
                 aux.setExecucaoFaltante(aux.getExecucaoFaltante() - 1);
-                aux.setTempoChegada(aux.getTempoChegada() + 1);
-                aux.setDeadlineFaltante(aux.getDeadlineFaltante() - 1);
                 tempoAtual = tempoAtual + 1;
                 
                 //ATUALIZA OS DEADLINES A CADA EXECUCAO
                 for(TarefaRobusta tarefa : listatarefas){
                     tarefa.setDeadlineFaltante(tarefa.getDeadlineFaltante() - 1);
                 }
+                
                 
                
                 
@@ -90,11 +96,12 @@ public class EDF {
                      + aux.getNome() + "Finalizou a execucao no instante " + String.valueOf(tempoAtual)
                       + "\n \n \n \n");
                     
-                    aux.setTempoChegada(aux.getTempoChegada() + aux.getPeriodo() - aux.getTempoComputacional());
+                    aux.setTempoChegada(aux.getTempoChegada() + aux.getPeriodo());
+                    System.out.println("tempo de chegada: "+aux.getTempoChegada());
                     listaExecutados.add(aux);
                     aux.setDeadline(aux.getDeadline() + aux.getPeriodo());
                     aux.setExecucaoFaltante(aux.getTempoComputacional());
-                    aux.setDeadlineFaltante(aux.getDeadline());
+                    aux.setDeadlineFaltante(aux.getDeadline() - tempoAtual);
                     aux = null;
                     
                 }
@@ -116,14 +123,26 @@ public class EDF {
             boolean quebrarWhile2 = false;
             //VERIFICA SE ALGUMA TAREFA QUE ESTÁ NA FILA PERDEU DEADLINE
             for(int i=0; i<listatarefas.size();i++){
-                if(!listatarefas.isEmpty() && listatarefas.get(i).getDeadlineFaltante() < 0){
+                if(!listatarefas.isEmpty() && listatarefas.get(i).getDeadlineFaltante() < 0 && !listatarefas.get(i).equals(aux)){
                     System.out.println("A TAREFA " + listatarefas.get(i).getNome() + " PERDEU DEADLINE NO INSTANTE " + tempoAtual);
                     quebrarWhile2 = true;
                 }
             }
-            if(quebrarWhile1 == true || quebrarWhile2){
+            if(quebrarWhile1 == true || quebrarWhile2 == true){
                 break;
             }
     }
+    }
+    
+    public void calculaEsperaMerdia(){
+        
+    }
+    
+    public void calculaExecucaoMedia(){
+    
+    }
+    
+    public void calculaAtrasos(){
+        
     }
 }

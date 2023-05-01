@@ -61,9 +61,9 @@ public class RateMonitonic {
                 try{
                     for(TarefaRobusta tarefa : listaExecutados){
                         if(tarefa.getTempoChegada() == tempoAtual){
-                            listatarefas.add(tarefa);
                             listaExecutados.remove(tarefa);
                         }
+                        System.out.println(listatarefas.size());
                       
                     }
                         
